@@ -76,6 +76,7 @@ var mainView = React.createClass({
             id: data.id,
             uid: token
           })
+          context.checkForUpdates(id, token, context)
           setInterval(function() {
             context.checkForUpdates(id, token, context)}, refreshTime);
         } else {
