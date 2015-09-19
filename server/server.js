@@ -37,6 +37,7 @@ var server = app.listen(3000, function () {
 
 app.use(bodyParser.json());
 
+app.get('/v/*', helpers.signup);
 
 app.post('/', helpers.addMessage);
 
@@ -46,9 +47,7 @@ app.post('/signin', helpers.signin);
 
 app.post('/create', helpers.createRoom);
 
-app.post('/v/', helpers.verify);
-
-app.post('/signup', helpers.signup);
+app.post('/signup', helpers.verify);
 
 app.post('/comment', function(request, response){ //request.body.url = 'newPost'
   firebase.comment(request, response);

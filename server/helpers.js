@@ -7,8 +7,6 @@
 var controllers = {
 
   signin: function (req, res) {
-    //console.log('sendMail in signin',sendMail)
-    //sendMail.sendgrid(); //this is here only for debuggin purposes
     var email = req.body.email,
         password = req.body.password;
 
@@ -30,32 +28,51 @@ var controllers = {
       })
   },
 
-  verify: function(){},
+  verify: function(req, res){
+    var email  = req.body.email,
+        password  = req.body.password;
+    console.log('verify is running');
+
+    var url = jwt.encode({
+      email: email,
+      password: password
+    }, 'secret')
+
+    var findUser = Q.nbind(Moderator.findOne, Moderator);
+    findUser({email: email})
+      .then(function(user) {
+        console.log(user);
+        if (user) {
+          res.json({token: 'null'});
+          console.log('* * * username taken')
+        } else {
+        sendMail.sendgrid(email, url);
+        }
+      })
+  },
 
   signup: function (req, res) {
-    var email  = req.body.email,
-        password  = req.body.password,
+    var user = jwt.decode(req.url.slice(3), 'armin');
+
+    var email  = user.email,
+        password  = user.password,
         create,
         newUser;
 
-    console.log('sendMail in signup',email)
-    sendMail.sendgrid(email);
     var findUser = Q.nbind(Moderator.findOne, Moderator);
 
     findUser({email: email})
       .then(function(user) {
         if (user) {
           res.json({token: 'null'});
-          console.log('* * * username taken')
-        } else {
-          newUser = {
-            email: email,
-            password: password
-          };
-          create = Q.nbind(Moderator.create, Moderator);
-          var token = jwt.encode(newUser, 'secret');
-          create(newUser);
-          res.json({ token: token });
+          console.log('emailed already registered')
+          } else {
+            newUser = {
+              email: email,
+              password: password
+            };
+            create = Q.nbind(Moderator.create, Moderator);
+            create(newUser);
         }
       })
   },
