@@ -3,7 +3,7 @@ var express = require('express'),
     querystring = require('querystring'),
     mongoose    = require('mongoose'),
     bodyParser = require('body-parser')
-    MongoWatch = require('mongo-watch');
+    // MongoWatch = require('mongo-watch');
 
 var helpers = require('./helpers')
 // See http://www.yelp.com/developers/documentation/v2/search_api 
@@ -17,11 +17,11 @@ MongoDB.once('open', function() {
   console.log("mongodb connection open");
 });
 
-var watcher = new MongoWatch({format: 'pretty'});
+// var watcher = new MongoWatch({format: 'pretty'});
 
-watcher.watch('rooms', function(event) {
-  console.log('event');
-});
+// watcher.watch('rooms', function(event) {
+//   console.log('event');
+// });
 
 app.use(express.static(__dirname + '/../client'));
 // http://127.0.0.1:3000/?firstname=Restaurant&lastname=Location
