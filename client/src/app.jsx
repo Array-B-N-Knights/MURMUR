@@ -49,6 +49,7 @@ var mainView = React.createClass({
     var id = this.state.id,
         context = this,
         token = window.localStorage['murmur.' + id];
+    console.log('sending ajax');
 
     $.ajax({
       type: 'POST',
@@ -70,6 +71,7 @@ var mainView = React.createClass({
           console.log('Connected to Database');
           context.setState({
             messages: data.messages,
+            id: data.id,
             uid: token
           })
         } else {
