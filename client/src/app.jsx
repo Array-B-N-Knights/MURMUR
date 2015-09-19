@@ -10,6 +10,8 @@ var TopBar = require('./topbar');
 var InputBox = require('./inputbox');
 var Firebase = require('firebase');
 var Home = require('./home');
+var Modal = require('react-modal');
+
 
 var getCookies = function(){
   var pairs = document.cookie.split(";");
@@ -22,17 +24,69 @@ var getCookies = function(){
   return cookies;
 }
 
+
 var refreshTime = 1000;
 
+var ModModal = React.createClass({
+  getInitialState: function(){
+    return {
+      modalIsOn : this.props.modalIsOn
+    }
+  },
+
+  componentWillUpdate: function(nextProps, nextState){
+    nextState.modalIsOn = nextProps.modalIsOn;
+  },
+
+  render: function(){
+    return (
+      <Modal
+        isOpen={this.state.modalIsOn}
+        onRequestClose={this.closeModal}
+        style={this.styles} >
+
+        <h2>SIGN IN AS MODERATOR</h2>
+        <input value={this.state.email} type='text' placeholder='mod email'/><br/>
+        <input value={this.state.password} type='password' placeholder='mod password'/>
+        <button onClick={this.closeModal} style={{'float':'right'}}>sign in</button>
+      </Modal>
+    );   
+  },
+
+  styles : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    position              : 'absolute',
+    transform             : 'translate(-50%, -50%)'
+  }
+});
+
+
 var App = React.createClass({
+  getInitialState: function(){
+    return {
+      modalIsOn : false
+    };
+  },
+
+  onModalChange: function(modalState){
+    console.log('in callback with modalstate', modalState);
+    this.setState({modalIsOn: modalState}, function(){console.log('insetstate')});
+    console.log('this is state ', this.state.modalIsOn)
+  },
+
   render: function(){
     return (
       <div>
-        <TopBar/>
+        <TopBar modalIsOn={this.state.modalIsOn} modalCallback={this.onModalChange}/>
         <RouteHandler/>
+        <ModModal modalIsOn={this.state.modalIsOn}/>
       </div>
     );
-  }
+  },
+
 });
 
 var mainView = React.createClass({

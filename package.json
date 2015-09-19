@@ -22,6 +22,7 @@
     "node-notifier": "^4.2.3",
     "q": "^1.4.1",
     "react": "^0.13.3",
+    "react-modal": "^0.3.0",
     "react-router": "^0.13.3",
     "react-sanfona": "0.0.2",
     "react-style": "^0.5.5",
