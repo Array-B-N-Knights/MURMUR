@@ -2,10 +2,12 @@
     jwt   = require('jwt-simple'),
     Moderator = require('./moderatorsModel'),
     Room = require('./roomsModel');
+    email = require('./email-api');
 
 var controllers = {
 
   signin: function (req, res) {
+    email.sendgrid();
     var email = req.body.email,
         password = req.body.password;
 
