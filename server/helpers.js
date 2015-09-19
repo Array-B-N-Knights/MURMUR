@@ -126,7 +126,6 @@ var controllers = {
 
           res.json({ success: false });
         } else {
-          console.log('this is room', room)
           roomData = room;
           if (!token) {
             console.log('no token');
@@ -140,8 +139,7 @@ var controllers = {
           res.json({ success: true, roomData: roomData, token: uid });
               // .then(function () {
               //    res.json({ success: true, roomData: roomData, token: uid });
-              // })
-          
+              // }) 
         }
       })
   },
@@ -163,7 +161,7 @@ var controllers = {
     var update = Q.nbind(Room.update, Room),
         messageID = createRandomID();
         time = new Date();
-
+  
     var pack = [ message, time, messageID, 0, uid, [] ];
     console.log('inserting: ', pack);
     update(
