@@ -24,7 +24,7 @@ var ViewAllMessages = React.createClass({
     // Sort Messages by time or popularity (ie number of votes)
     var messageRowsSortedOptions = {
       recent: messageRows.slice().sort(function(a,b){
-        return b[1] - a[1];
+        return new Date(b.props.timestamp) - new Date(a.props.timestamp);
       }),
       popular: messageRows.slice().sort(function(a,b){
         return b[3] - a[3];
