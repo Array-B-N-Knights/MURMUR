@@ -99,6 +99,7 @@ var controllers = {
   },
 
   checkRoomExists: function (req, res) {
+    console.log('checking room');
 
     var id = req.body.id,
         token = req.body.token,
