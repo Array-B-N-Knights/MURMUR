@@ -24,8 +24,7 @@ var getCookies = function(){
   return cookies;
 }
 
-
-var refreshTime = 1000;
+var refreshTime = 500;
 
 var ModModal = React.createClass({
   getInitialState: function(){
@@ -130,9 +129,7 @@ var mainView = React.createClass({
             id: data.id,
             uid: token
           })
-          context.checkForUpdates(id, token, context)
-          setInterval(function() {
-            context.checkForUpdates(id, token, context)}, refreshTime);
+          
         } else {
           console.log('room does not exist');
           context.transitionTo('index');
@@ -143,6 +140,11 @@ var mainView = React.createClass({
 
     
   },
+
+  componentDidMount: function() {
+    setInterval(function() {
+            context.checkForUpdates(id, token, context)}, refreshTime);
+  }
 
   checkForUpdates: function(id, token, context) {
     // console.log('checking');
