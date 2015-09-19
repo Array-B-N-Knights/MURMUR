@@ -74,6 +74,8 @@ var mainView = React.createClass({
             id: data.id,
             uid: token
           })
+          setInterval(function() {
+            context.checkForUpdates(id, token, context)}, 2000);
         } else {
           console.log('room does not exist');
           context.transitionTo('index');
@@ -81,8 +83,35 @@ var mainView = React.createClass({
         
       }
     });
+
     
   },
+
+  checkForUpdates: function(id, token, context) {
+    console.log('checking');
+    $.ajax({
+      type: 'POST',
+      url: '/checkroom',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        id: id,
+        token: token
+      }),
+      success: function(data) {
+        var data = data.roomData;
+        console.log('checking complete');
+        context.setState({
+          messages: data.messages,
+          id: data.id,
+          uid: token
+        })
+      }
+    })
+  },
+
+  // componentDidMount: function() {
+  //   setInterval(console.log('hello'), 1000);
+  // }
 
   handleSortRecent: function(){
     this.setState({sort: 'recent'});

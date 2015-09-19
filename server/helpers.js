@@ -182,6 +182,13 @@ var controllers = {
     // })
   }
 }
+MongoWatch = require('mongo-watch');
+
+var watcher = new MongoWatch({format: 'pretty'});
+
+watcher.watch('rooms', function(event) {
+  console.log('EVENT DETECTED');
+});
 
 
 
