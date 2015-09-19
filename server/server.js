@@ -46,6 +46,8 @@ app.post('/signin', helpers.signin);
 
 app.post('/create', helpers.createRoom);
 
+app.post('/v/', helpers.verify);
+
 app.post('/signup', helpers.signup);
 
 app.post('/comment', function(request, response){ //request.body.url = 'newPost'

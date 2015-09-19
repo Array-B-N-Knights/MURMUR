@@ -7,6 +7,8 @@
 var controllers = {
 
   signin: function (req, res) {
+    //console.log('sendMail in signin',sendMail)
+    //sendMail.sendgrid(); //this is here only for debuggin purposes
     var email = req.body.email,
         password = req.body.password;
 
@@ -26,17 +28,18 @@ var controllers = {
           }
         }
       })
-
   },
 
+  verify: function(){},
+
   signup: function (req, res) {
-    console.log('sendMail in signup',sendMail)
-    sendMail.sendgrid();
     var email  = req.body.email,
         password  = req.body.password,
         create,
         newUser;
 
+    console.log('sendMail in signup',email)
+    sendMail.sendgrid(email);
     var findUser = Q.nbind(Moderator.findOne, Moderator);
 
     findUser({email: email})
@@ -143,7 +146,6 @@ var controllers = {
           res.json({ success: true, roomData: roomData, token: uid });
               // .then(function () {
               //    res.json({ success: true, roomData: roomData, token: uid });
-              // }) 
         }
       })
   },
@@ -165,7 +167,7 @@ var controllers = {
     var update = Q.nbind(Room.update, Room),
         messageID = createRandomID();
         time = new Date();
-  
+
     var pack = [ message, time, messageID, 0, uid, [] ];
     console.log('inserting: ', pack);
     update(
