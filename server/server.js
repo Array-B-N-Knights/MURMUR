@@ -2,7 +2,7 @@
 var express = require('express'),
     querystring = require('querystring'),
     mongoose    = require('mongoose'),
-    bodyParser = require('body-parser')
+    bodyParser = require('body-parser');
     // MongoWatch = require('mongo-watch');
 
 var helpers = require('./helpers')
