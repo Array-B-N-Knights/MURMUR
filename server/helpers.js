@@ -99,6 +99,7 @@ var controllers = {
   },
 
   checkRoomExists: function (req, res) {
+
     var id = req.body.id,
         token = req.body.token,
         roomData,
@@ -120,21 +121,27 @@ var controllers = {
       id: id
     })
       .then(function (room) {
+        console.log('checkroom');
         if (!room) {
+
           res.json({ success: false });
         } else {
+          console.log('this is room', room)
           roomData = room;
           if (!token) {
+            console.log('no token');
             var uid = createRandomID();
             update = Q.nbind(Room.update, Room);
             update(
               { id: id },
               { $addToSet: { users: [ uid, [] ] } }
             )
-              .then(function () {
-                 res.json({ success: true, roomData: roomData, token: uid });
-              })
           }
+          res.json({ success: true, roomData: roomData, token: uid });
+              // .then(function () {
+              //    res.json({ success: true, roomData: roomData, token: uid });
+              // })
+          
         }
       })
   },
