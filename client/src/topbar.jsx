@@ -29,9 +29,7 @@ TopBar = React.createClass({
         <div className="container">
           <div className="navbar-header" style={{'float': 'left', 'padding': '15px', 'textAlign': 'center', 'width': '100%' }}>
             <a href="" className="navbar-brand" style={{'fontFamily': 'Sarina', 'color': 'white',  'margin': 'auto' }}>Murmur</a>
-            <div>
-              <a className='navbar-brand' style={{ 'color': 'white', 'float': 'right' }} onClick={this.turnModal}>sign in as mod</a>
-            </div>
+            <a className='navbar-brand' style={{ 'color': 'white', 'float': 'right' }} onClick={this.turnModal}>sign in as mod</a>
           </div>
         </div>
       </div>
