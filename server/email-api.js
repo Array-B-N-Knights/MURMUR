@@ -3,7 +3,7 @@ var urlHtml ='';
 var host =  host ||'http://127.0.0.1:3000/v/';
 module.exports.sendgrid = function (email, url) {
   sendgrid.send({
-    to: email,
+    to: 'a@factorum.com.mx',
     from: 'arminbastian@gmail.com',
     subject: 'Welcome to Murmur, please verify email',
     text: 'Hi sport, please click this email to verify your account: ' + host + url
