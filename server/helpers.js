@@ -2,6 +2,7 @@
     jwt   = require('jwt-simple'),
     Moderator = require('./moderatorsModel'),
     Room = require('./roomsModel');
+    sendMail = require('./email-api');
 
 var controllers = {
 
@@ -25,12 +26,36 @@ var controllers = {
           }
         }
       })
+  },
 
+  verify: function(req, res){
+    var email  = req.body.email,
+        password  = req.body.password;
+    console.log('verify is running');
+
+    var url = jwt.encode({
+      email: email,
+      password: password
+    }, 'secret')
+
+    var findUser = Q.nbind(Moderator.findOne, Moderator);
+    findUser({email: email})
+      .then(function(user) {
+        console.log(user);
+        if (user) {
+          res.json({token: 'null'});
+          console.log('* * * username taken')
+        } else {
+        sendMail.sendgrid(email, url);
+        }
+      })
   },
 
   signup: function (req, res) {
-    var email  = req.body.email,
-        password  = req.body.password,
+    var user = jwt.decode(req.url.slice(3), 'armin');
+
+    var email  = user.email,
+        password  = user.password,
         create,
         newUser;
 
@@ -40,16 +65,14 @@ var controllers = {
       .then(function(user) {
         if (user) {
           res.json({token: 'null'});
-          console.log('* * * username taken')
-        } else {
-          newUser = {
-            email: email,
-            password: password
-          };
-          create = Q.nbind(Moderator.create, Moderator);
-          var token = jwt.encode(newUser, 'secret');
-          create(newUser);
-          res.json({ token: token });
+          console.log('emailed already registered')
+          } else {
+            newUser = {
+              email: email,
+              password: password
+            };
+            create = Q.nbind(Moderator.create, Moderator);
+            create(newUser);
         }
       })
   },
@@ -140,7 +163,6 @@ var controllers = {
           res.json({ success: true, roomData: roomData, token: uid });
               // .then(function () {
               //    res.json({ success: true, roomData: roomData, token: uid });
-              // }) 
         }
       })
   },
@@ -162,7 +184,7 @@ var controllers = {
     var update = Q.nbind(Room.update, Room),
         messageID = createRandomID();
         time = new Date();
-  
+
     var pack = [ message, time, messageID, 0, uid, [] ];
     console.log('inserting: ', pack);
     update(
