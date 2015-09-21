@@ -142,9 +142,12 @@ var mainView = React.createClass({
   },
 
   componentDidMount: function() {
+    var id = this.state.id,
+            context = this,
+            token = window.localStorage['murmur.' + id];
     setInterval(function() {
             context.checkForUpdates(id, token, context)}, refreshTime);
-  }
+  },
 
   checkForUpdates: function(id, token, context) {
     // console.log('checking');
@@ -161,8 +164,6 @@ var mainView = React.createClass({
         // console.log('checking complete');
         context.setState({
           messages: data.messages,
-          id: data.id,
-          uid: token
         })
       }
     })
